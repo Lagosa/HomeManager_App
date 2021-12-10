@@ -34,10 +34,13 @@ public class ServerCalls extends AppCompatActivity {
 
     public ServerCalls(Context context){
         Log.w("Server","" + R.string.server_url);
-      //  SERVER_URL = getString(R.string.server_url);
-        SERVER_URL = "https://lagosa-home-manager.herokuapp.com/";
+        SERVER_URL = context.getString(R.string.server_url);
         queue = Volley.newRequestQueue(context);
         this.context = context;
+    }
+
+    public void wakeupCall(){
+        String url = SERVER_URL + ""
     }
 
     public void registerFamily(String email, String password){
