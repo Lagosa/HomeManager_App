@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="55dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView3"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="13dp"-->
+<!--                            android:layout_marginBottom="40dp"-->
+<!--                            android:minHeight="48dp"-->
+<!--                            android:text="Email:"-->
+<!--                            android:textAlignment="textEnd"-->
+<!--                            android:textColor="#262B54"-->
+<!--                            android:textSize="18sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView4"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginBottom="40dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:minHeight="48dp"-->
+<!--                            android:text="Password:"-->
+<!--                            android:textAlignment="textEnd"-->
+<!--                            android:textColor="#262B54"-->
+<!--                            android:textSize="18sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView5"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginBottom="40dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:minHeight="48dp"-->
+<!--                            android:text="Repeat pass.:"-->
+<!--                            android:textAlignment="textEnd"-->
+<!--                            android:textColor="#262B54"-->
+<!--                            android:textSize="18sp" />-->
+
+<!--                    </LinearLayout>-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/txtCreateEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="40dp"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:minHeight="48dp"
+                            android:hint="Email"
+                            android:shadowColor="#FFFFFF"
+                            android:textColor="#262B54"
+                            android:textColorHighlight="@color/lightHighlight"
+                            android:textColorLink="@color/lightHighlight" />
+
+                        <EditText
+                            android:id="@+id/txtCreatePassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="40dp"
+                            android:ems="10"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+
+                            android:textColor="#262B54" />
+
+                        <EditText
+                            android:id="@+id/txtCreatePasswordRepeat"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginBottom="40dp"
+                            android:ems="10"
+                            android:inputType="textPassword"
+                            android:hint="Repeat password"
+                            android:textColor="#262B54" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_createFamily"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_weight="1"
+                    android:background="#262B54"
+                    android:text="Create"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="#00C6C3" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
