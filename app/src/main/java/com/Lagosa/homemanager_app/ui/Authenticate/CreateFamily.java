@@ -2,7 +2,6 @@ package com.Lagosa.homemanager_app.ui.Authenticate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,18 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
+import com.Lagosa.homemanager_app.Database.RegisterCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.R;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -31,6 +22,7 @@ public class CreateFamily extends AppCompatActivity {
     private EditText txt_email,txt_password,txt_passwordAgain;
     private UUID familyId;
     private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    int joinCode;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -68,7 +60,22 @@ public class CreateFamily extends AppCompatActivity {
                 }
 
                 ServerCalls serverCalls = new ServerCalls(CreateFamily.this);
-                serverCalls.registerFamily(email,password);
+                serverCalls.registerFamily(new RegisterCallback() {
+                    @Override
+                    public void onSucess(UUID familyIdResponse) {
+                        serverCalls.getJoinCode(new JoinCodeCallback() {
+                            @Override
+                            public void onSuccess(int joinCodeResponse) {
+                                Intent intent = new Intent(CreateFamily.this,JoinFamily.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("joinCode",joinCodeResponse);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                                finish();
+                            }
+                        },familyIdResponse);
+                    }
+                }, email, password);
             }
         });
     }

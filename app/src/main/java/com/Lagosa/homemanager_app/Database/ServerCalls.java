@@ -1,16 +1,14 @@
 package com.Lagosa.homemanager_app.Database;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.Lagosa.homemanager_app.MainActivity;
 import com.Lagosa.homemanager_app.R;
-import com.Lagosa.homemanager_app.ui.Authenticate.CreateFamily;
-import com.Lagosa.homemanager_app.ui.Authenticate.JoinFamily;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,11 +17,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class ServerCalls extends AppCompatActivity {
@@ -40,10 +36,23 @@ public class ServerCalls extends AppCompatActivity {
     }
 
     public void wakeupCall(){
-        String url = SERVER_URL + ""
+        String url = SERVER_URL + "authentication/wakeUp";
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Server started!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Server NOT started! Restart the application",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
     }
 
-    public void registerFamily(String email, String password){
+    public void registerFamily(RegisterCallback callback,String email, String password){
         String url = SERVER_URL + "authentication/registerFamily/" + email + "/" + password;
 
         // Request a string response from the provided URL.
@@ -55,7 +64,7 @@ public class ServerCalls extends AppCompatActivity {
                             UUID familyId = UUID.fromString(response.getString("UUID"));
                             Log.w("=> CreateFamily","Got familyId! " + familyId);
 
-                            getJoinCode(familyId);
+                            callback.onSucess(familyId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -72,14 +81,14 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(jsonRequest);
     }
 
-    public void getJoinCode(UUID familyId){
+    public void getJoinCode(JoinCodeCallback callback,UUID familyId){
 
         String url = SERVER_URL + "authentication/registerFamily/"+ familyId;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 int joinCode = Integer.parseInt(response);
-                goToNewPage(JoinFamily.class,joinCode);
+                callback.onSuccess(joinCode);
             }
         }, new Response.ErrorListener(){
             @Override
@@ -91,29 +100,42 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    public Map<String,Object> getUser(UUID userId){
+    public void getUser(UUID userId){
         String url = SERVER_URL + "authentication/getUserData/" + userId.toString();
 
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                JSONArray jsonArray = JSONArray
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        })
-        return null;
-    }
+        Bundle user = new Bundle();
+        user.putString("id","");
+        user.putString("nickName","");
+        user.putString("familyId","");
+        user.putString("role","");
+        user.putString("birthDate","");
 
-    private void goToNewPage(Class myClass,int joinCode) {
-        Intent intent = new Intent(context, myClass);
-        Bundle bundle = new Bundle();
-        bundle.putInt("joinCode",joinCode);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-        finish();
+        Log.w("ServerCalls","user created!");
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    user.putString("id",response.getString("id"));
+                    user.putString("nickName",response.getString("nickName"));
+                    user.putString("familyId",response.getString("familyId"));
+                    user.putString("role",response.getString("role"));
+                  //  user.put("birthDate", Date.valueOf(response.getString("date")));
+                    Log.w("ServerCalls","User got from server!");
+                    new MainActivity().goToDrawer(user,context);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.w("ServerCalls","Error occured on server!");
+            }
+        });
+
+        queue.add(jsonObjectRequest);
     }
 }

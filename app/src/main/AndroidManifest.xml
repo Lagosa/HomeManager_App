@@ -32,6 +32,8 @@
         <activity android:name=".ui.Authenticate.JoinFamily" />
         <activity android:name=".ui.Authenticate.CreateFamily" />
         <activity android:name=".ListDataActivity" />
+        <activity android:name=".MainDrawerActivity"
+            android:theme="@style/Theme.HomeManagerApp.NoActionBar"/>
     </application>
 
 </manifest>

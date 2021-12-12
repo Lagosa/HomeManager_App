@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Chores">
+            <menu>
+                <item
+                    android:id="@+id/listChores"
+
+                    android:icon="@drawable/view"
+                    android:title="View chores" />
+                <item
+                    android:id="@+id/myChores"
+                    android:icon="@drawable/ic_baseline_library_add_check_24"
+                    android:title="My chores" />
+                <item
+                    android:id="@+id/getReport"
+                    android:icon="@drawable/ic_baseline_bar_chart_24"
+                    android:title="Generate report" />
+                <item
+                    android:id="@+id/getMementos"
+                    android:icon="@drawable/ic_baseline_notifications_24"
+                    android:title="Mementos" />
+            </menu>
+        </item>
+        <item android:title="Dishes">
+            <menu>
+                <item
+                    android:id="@+id/listAllDishes"
+                    android:icon="@drawable/ic_baseline_fastfood_24"
+                    android:title="All dishes" />
+                <item
+                    android:id="@+id/listPlannedDishes"
+                    android:icon="@drawable/ic_baseline_calendar_month_24"
+                    android:title="Planned dishes" />
+                <item
+                    android:id="@+id/ingredientsForToday"
+                    android:icon="@drawable/ic_baseline_checklist_24"
+                    android:title="Today's ingredients" />
+            </menu>
+        </item>
+    </group>
+    <item
+        android:id="@+id/getFamilyId"
+        android:icon="@drawable/view"
+        android:title="Family id" />
+</menu>

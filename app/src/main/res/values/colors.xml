@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="darkHighlight">#262B54</color>
+    <color name="lightDarkHighlight">#7079C3</color>
     <color name="lightHighlight">#00C6C3</color>
     <color name="veryLightHighlight">#FFF7D6</color>
 </resources>

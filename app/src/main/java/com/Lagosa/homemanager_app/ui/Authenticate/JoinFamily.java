@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Lagosa.homemanager_app.Database.DatabaseHelper;
-import com.Lagosa.homemanager_app.MenuActivity;
+import com.Lagosa.homemanager_app.MainActivity;
 import com.Lagosa.homemanager_app.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -119,7 +119,7 @@ public class JoinFamily extends AppCompatActivity {
                         UUID userId = UUID.fromString(response);
                         dbHelper.addUserId(userId);
                         Toast.makeText(JoinFamily.this,"User added!",Toast.LENGTH_SHORT).show();
-                        goToNewPage(MenuActivity.class);
+                        goToNewPage(MainActivity.class);
                     }
                 }, new Response.ErrorListener() {
                     @Override
