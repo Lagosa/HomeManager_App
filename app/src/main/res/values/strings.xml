@@ -29,5 +29,5 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="openDrawer">Opened drawer</string>
     <string name="closeDrawer">Closed drawer</string>
-    <string name="connecting_server_loading_screen">Connecting to server...</string>
+    <string name="connecting_server_loading_screen">Connecting to the server...</string>
 </resources>

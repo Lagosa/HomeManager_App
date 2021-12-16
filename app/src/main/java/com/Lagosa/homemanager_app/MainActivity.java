@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_JoinFamily,btn_createFamily;
     ServerCalls serverCalls;
     TextView loadingScreenText;
+    boolean serverStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         serverCalls = new ServerCalls(this);
         serverCalls.wakeupCall();
+
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         Cursor data = dbHelper.getUserId();

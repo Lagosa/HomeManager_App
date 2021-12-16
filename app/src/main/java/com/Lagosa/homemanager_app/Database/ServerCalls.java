@@ -9,17 +9,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Lagosa.homemanager_app.MainActivity;
 import com.Lagosa.homemanager_app.R;
+import com.Lagosa.homemanager_app.ui.Chores.Chore;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ServerCalls extends AppCompatActivity {
@@ -137,5 +143,43 @@ public class ServerCalls extends AppCompatActivity {
         });
 
         queue.add(jsonObjectRequest);
+    }
+
+    public void getAllNotDoneChores(ChoreListCallback callback,UUID userId){
+        String url = SERVER_URL + "chore/listOfNotDone/" + userId.toString();
+
+        List<Chore> chores = new ArrayList<>();
+        Log.w("CHORES","Fetching data from: " + url);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.w("CHORES","Got response!" + response.length());
+                for(int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject choreObject = response.getJSONObject(i);
+                        Chore chore = new Chore(choreObject.getString("submitterName"), Date.valueOf(choreObject.getString("submissionDate")),
+                                Date.valueOf(choreObject.getString("dueDate")),choreObject.getString("typeName"),choreObject.getString("description"),
+                                choreObject.getString("title"));
+                        chore.setId(choreObject.getInt("id"));
+                        chore.setStatus(choreObject.getString("status"));
+                        chore.setDoneByName(choreObject.getString("doneByName"));
+                        if(chore.getDoneByName().equals("null")){
+                            chore.setDoneByName(" - ");
+                        }
+                        Log.w("CHORES","Chore got!" + chore.toString());
+                        chores.add(chore);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.setNotDoneChoreList(chores);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
     }
 }

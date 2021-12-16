@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2796875" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/chore_add_background.xml" value="0.2453125" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/chore_delete_background.xml" value="0.2453125" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2453125" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/ic_menu_camera.xml" value="0.2796875" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/outer_border.xml" value="0.2453125" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/side_nav_bar.xml" value="0.2703125" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/view.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.341015625" />
@@ -15,6 +19,7 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/activity_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/app_bar_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/border.xml" value="0.36666666666666664" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/chore_card.xml" value="0.4" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/content_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_family.xml" value="0.2864583333333333" />
@@ -30,6 +35,7 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/loading_screen.xml" value="0.2635416666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/nav_header_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/spinner_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_chore_fragment.xml" value="0.22916666666666666" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/welcome_page.xml" value="0.264" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/activity_main_drawer.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/drawer_menu.xml" value="0.36666666666666664" />

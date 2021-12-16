@@ -6,7 +6,6 @@
             <menu>
                 <item
                     android:id="@+id/listChores"
-
                     android:icon="@drawable/view"
                     android:title="View chores" />
                 <item
@@ -41,7 +40,7 @@
         </item>
     </group>
     <item
-        android:id="@+id/getFamilyId"
+        android:id="@+id/getFamilyJoinCode"
         android:icon="@drawable/view"
         android:title="Family id" />
 </menu>

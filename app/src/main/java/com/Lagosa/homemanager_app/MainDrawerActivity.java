@@ -2,6 +2,7 @@ package com.Lagosa.homemanager_app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -16,15 +17,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.Lagosa.homemanager_app.Database.DatabaseHelper;
+import com.Lagosa.homemanager_app.Database.ChoreListCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
+import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
+import com.Lagosa.homemanager_app.ui.Chores.Chore;
+import com.Lagosa.homemanager_app.ui.Chores.ChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
+import com.Lagosa.homemanager_app.ui.ViewModels.ChoreListViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 public class MainDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -36,8 +42,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
     FragmentTransaction fragmentTransaction;
     View header;
     ServerCalls serverCalls;
-    DatabaseHelper dbHelper;
-    Map<String,Object> user;
+    Intent intent;
+    UUID familyId;
+    UUID userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,16 +65,24 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         TextView txt_nickname = header.findViewById(R.id.txtDrawerNickname);
         TextView txt_role = header.findViewById(R.id.txtDrawerRole);
 
-        Intent intent = getIntent();
+        intent = getIntent();
+        familyId = UUID.fromString(intent.getStringExtra("familyId"));
+        userId = UUID.fromString(intent.getStringExtra("id"));
+
         txt_nickname.setText(intent.getStringExtra("nickName"));
         txt_role.setText(intent.getStringExtra("role"));
+
+        serverCalls = new ServerCalls(this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.getFamilyId:
+            case R.id.getFamilyJoinCode:
                 displayJoinCodeFragment();
+                break;
+            case R.id.listChores:
+                listChores();
                 break;
         }
 
@@ -75,7 +90,7 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         return true;
     }
 
-    void displayJoinCodeFragment(){
+    private void displayJoinCodeFragment(){
         JoincodeFragment joinCodeFragment = new JoincodeFragment();
         fragmentManager = getSupportFragmentManager();
 
@@ -84,15 +99,43 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         fragmentTransaction.replace(R.id.container_fragment,joinCodeFragment);
         fragmentTransaction.commit();
 
-        Intent intent = getIntent();
-        String familyId = intent.getStringExtra("familyId");
-        serverCalls = new ServerCalls(this);
         serverCalls.getJoinCode(new JoinCodeCallback() {
             @Override
             public void onSuccess(int joinCode) {
                 JoinCodeViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(JoinCodeViewModel.class);
                 viewModel.setJoinCode(joinCode);
             }
-        }, UUID.fromString(familyId));
+        }, familyId);
+    }
+
+    private void listChores(){
+        Log.w("CHORES","Generating list!");
+        serverCalls.getAllNotDoneChores(new ChoreListCallback() {
+            @Override
+            public void setNotDoneChoreList(List<Chore> chores) {
+                Log.w("CHORES","Method called!");
+                ChoreListViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(ChoreListViewModel.class);
+
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new AllChoresListFragment());
+                fragmentTransaction.commit();
+
+                viewModel.getNotDoneListRecycleViewFamily().observe(MainDrawerActivity.this,item ->{
+
+                    Log.w("CHORES","Got recycle view");
+
+                    item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                    ChoreCardAdapter adapter = new ChoreCardAdapter(MainDrawerActivity.this,chores);
+                    item.setAdapter(adapter);
+
+
+                });
+            }
+        },userId);
+
+
+
+
     }
 }
