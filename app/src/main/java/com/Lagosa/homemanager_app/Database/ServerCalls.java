@@ -145,7 +145,7 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    public void getAllNotDoneChores(ChoreListCallback callback,UUID userId){
+    public void getAllNotDoneChores(ChoreNotDoneListCallback callback, UUID userId){
         String url = SERVER_URL + "chore/listOfNotDone/" + userId.toString();
 
         List<Chore> chores = new ArrayList<>();
@@ -178,6 +178,57 @@ public class ServerCalls extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getChoreTypes(ChoreTypesListCallback callback){
+        String url =  SERVER_URL + "chore/getChoreTypes";
+        Log.w("CreateChore","Fetching data from DB");
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<String> types = new ArrayList<>();
+                Log.w("CreateChore","Got data, size: " + response.length());
+                try {
+                    for(int i = 0; i < response.length();i++){
+                        types.add(response.getJSONObject(i).get("type").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                callback.setChoreTypesList(types);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void createChore(UUID userId, Date deadline, String type, String title, String description){
+        String url = SERVER_URL + "chore/create/"+userId+"/"+deadline.toString()+"/"+type+"/"+title;
+        Log.w("CreateChore","Creating chore: " + url);
+
+        JSONObject object = new JSONObject();
+        try {
+            object.put("description",description);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, object,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.w("CreateChore","Chore created!  " + response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
             }
         });
         queue.add(request);

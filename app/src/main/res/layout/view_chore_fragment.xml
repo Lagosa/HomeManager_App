@@ -3,38 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#FCFCFF">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
 
             <Button
                 android:id="@+id/addChorebtn"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
                 android:text="Add chore" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/changeDeadlinebtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
+                android:text="Change Deadline" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -43,7 +43,7 @@
             android:layout_height="729dp"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
-            android:background="#F3F3F4" >
+            >
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

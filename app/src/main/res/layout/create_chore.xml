@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:orientation="vertical"
+    android:background="#FCFCFF">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@color/darkHighlight"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="40dp"
+        android:text="Create a new chore" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="55dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/txtAddChoreTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:ems="10"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:shadowColor="#FFFFFF"
+                    android:textColor="#262B54"
+                    android:textColorHighlight="@color/lightHighlight"
+                    android:textColorLink="@color/lightHighlight" />
+
+                <Spinner
+                    android:id="@+id/spnAddChoreType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:autofillHints="Type"
+                    android:dropDownWidth="match_parent"
+                    android:minHeight="48dp"
+                    android:popupBackground="@color/white"
+                    android:contentDescription="Type of chore"
+                    android:textColor="#262B54" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txtAddChoreDeadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40dp"
+                        android:ems="10"
+                        android:hint="Deadline"
+                        android:minHeight="48dp"
+                        android:textColor="@color/darkHighlight"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/addChoreDeadlineWrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="51dp"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/txtAddChoreDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="40dp"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:hint="Desciption"
+                    android:inputType="text|textMultiLine"
+                    android:textColor="#262B54" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnAddChoreCreate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_weight="1"
+                    android:background="#262B54"
+                    android:text="Create"
+                    android:textColor="@color/white"
+                    android:textColorHighlight="#00C6C3" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</LinearLayout>

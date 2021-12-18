@@ -4,6 +4,6 @@ import com.Lagosa.homemanager_app.ui.Chores.Chore;
 
 import java.util.List;
 
-public interface ChoreListCallback {
+public interface ChoreNotDoneListCallback {
     void setNotDoneChoreList(List<Chore> chores);
 }

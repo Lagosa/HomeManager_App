@@ -12,11 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HomeManagerApp">
         <activity
-            android:name=".MenuActivity"
-            android:exported="false"
-            android:label="@string/title_activity_menu"
-            android:theme="@style/Theme.HomeManagerApp.NoActionBar" />
-        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
