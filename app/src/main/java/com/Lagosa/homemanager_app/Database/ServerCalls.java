@@ -354,6 +354,54 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(request);
     }
 
+    public void getMementos(MementoCallback callback, UUID userId){
+        String url = SERVER_URL + "chore/getMementos/" + userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> mementoList = new ArrayList<>();
+
+                for(int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        Map<String,Object> memento = new HashMap<>();
+                        memento.put("title",object.getString("title"));
+                        memento.put("dueDate",Date.valueOf(object.getString("dueDate")));
+                        mementoList.add(memento);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                callback.gotMementos(mementoList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void createMemento(UUID userId,String title, Date dueDate){
+        String url = SERVER_URL + "chore/addMemento/"+userId+"/"+title+"/"+dueDate;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Memento created!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
     private List<Map<String,Object>> fetchReportChore(JSONArray jsonChoreList){
         List<Map<String,Object>> reportChores = new ArrayList<>();
         for(int j = 0; j < jsonChoreList.length(); j++){

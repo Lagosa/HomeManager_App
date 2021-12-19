@@ -33,6 +33,10 @@
                     android:icon="@drawable/ic_baseline_calendar_month_24"
                     android:title="Planned dishes" />
                 <item
+                    android:id="@+id/listPolls"
+                    android:icon="@drawable/ic_baseline_pie_chart_24"
+                    android:title="Polls" />
+                <item
                     android:id="@+id/ingredientsForToday"
                     android:icon="@drawable/ic_baseline_checklist_24"
                     android:title="Today's ingredients" />

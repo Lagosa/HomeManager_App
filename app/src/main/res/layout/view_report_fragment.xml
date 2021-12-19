@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="50dp"
+    android:background="#FCFCFF">
 
     <TextView
         android:id="@+id/textView3"
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Report for the last 1 month"
+        android:text="Report for the past 1 month"
         android:textAlignment="center"
         android:textColor="@color/darkHighlight"
         android:textSize="24sp"

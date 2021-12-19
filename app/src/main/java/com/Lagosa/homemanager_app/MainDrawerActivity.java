@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.Lagosa.homemanager_app.Database.ChoreMyChoresCallback;
 import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
+import com.Lagosa.homemanager_app.Database.MementoCallback;
 import com.Lagosa.homemanager_app.Database.ReportCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
@@ -30,15 +31,19 @@ import com.Lagosa.homemanager_app.ui.Chores.ChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
+import com.Lagosa.homemanager_app.ui.Mementos.MementoCardAdapter;
+import com.Lagosa.homemanager_app.ui.Mementos.MementoListFragment;
 import com.Lagosa.homemanager_app.ui.Reports.Report;
 import com.Lagosa.homemanager_app.ui.Reports.ReportCardAdapter;
 import com.Lagosa.homemanager_app.ui.Reports.ReportListFragment;
 import com.Lagosa.homemanager_app.ui.ViewModels.ChoreViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
+import com.Lagosa.homemanager_app.ui.ViewModels.MementoViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.ReportViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class MainDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -97,6 +102,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.getReport:
                 getReport();
+                break;
+            case R.id.getMementos:
+                getMementos();
                 break;
         }
 
@@ -181,6 +189,26 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 viewModel.getReportRecyclerView().observe(MainDrawerActivity.this,item ->{
                     item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
                     ReportCardAdapter adapter = new ReportCardAdapter(MainDrawerActivity.this,MainDrawerActivity.this,reportList);
+                    item.setAdapter(adapter);
+                });
+            }
+        },userId);
+    }
+
+    public void getMementos(){
+        serverCalls.getMementos(new MementoCallback(){
+
+            @Override
+            public void gotMementos(List<Map<String, Object>> mementoList) {
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new MementoListFragment());
+                fragmentTransaction.commit();
+
+                MementoViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(MementoViewModel.class);
+                viewModel.getRecyclerViewMutableLiveData().observe(MainDrawerActivity.this,item->{
+                    item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                    MementoCardAdapter adapter = new MementoCardAdapter(MainDrawerActivity.this,mementoList);
                     item.setAdapter(adapter);
                 });
             }
