@@ -270,4 +270,50 @@ public class ServerCalls extends AppCompatActivity {
 
         queue.add(request);
     }
+
+    public void listMyChores(ChoreMyChoresCallback callback, UUID userId){
+        String url = SERVER_URL + "chore/tookUpChores/" + userId;
+        List<Chore> myChores=  new ArrayList<>();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for(int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject jsonObject = response.getJSONObject(i);
+                        Chore chore = new Chore(jsonObject.getString("submitterName"),Date.valueOf(jsonObject.getString("submissionDate")),Date.valueOf(jsonObject.getString("dueDate")),
+                                jsonObject.getString("typeName"),jsonObject.getString("description"),jsonObject.getString("title"));
+                        chore.setId(jsonObject.getInt("id"));
+                        chore.setDoneByName(jsonObject.getString("doneByName"));
+                        myChores.add(chore);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotMyChores(myChores);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void markChoreAsDone(int choreId, UUID userId){
+        String url = SERVER_URL + "chore/markDone/" + choreId + "/" + userId;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Chore marked as done!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
 }

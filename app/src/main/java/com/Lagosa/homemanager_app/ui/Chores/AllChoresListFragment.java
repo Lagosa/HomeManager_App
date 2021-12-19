@@ -26,7 +26,6 @@ public class AllChoresListFragment extends Fragment implements View.OnClickListe
         ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.view_chore_fragment,container,false);
 
         ChoreViewModel viewModel = new ViewModelProvider(requireActivity()).get(ChoreViewModel.class);
-
         viewModel.setNotDoneListRecycleViewFamily(myView.findViewById(R.id.choresList));
 
         Button btnCreateChore = myView.findViewById(R.id.addChorebtn);

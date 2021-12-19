@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp">
+
+    <TextView
+        android:id="@+id/myChoresNoChores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You have no chores took up!"
+        android:textAlignment="center"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/darkHighlight"
+        android:textSize="24sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="-50dp"
+        android:id="@+id/myChoresList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

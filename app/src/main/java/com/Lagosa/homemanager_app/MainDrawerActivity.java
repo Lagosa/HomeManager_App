@@ -19,12 +19,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.Lagosa.homemanager_app.Database.ChoreMyChoresCallback;
 import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
 import com.Lagosa.homemanager_app.ui.Chores.Chore;
 import com.Lagosa.homemanager_app.ui.Chores.ChoreCardAdapter;
+import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
+import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
 import com.Lagosa.homemanager_app.ui.ViewModels.ChoreViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
@@ -84,6 +87,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
             case R.id.listChores:
                 listChores();
                 break;
+            case R.id.myChores:
+                listMyChores();
+                break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -108,7 +114,7 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         }, familyId);
     }
 
-    public void listChores(){
+    private void listChores(){
         Log.w("CHORES","Generating list!");
         serverCalls.getAllNotDoneChores(new ChoreNotDoneListCallback() {
             @Override
@@ -132,9 +138,27 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 });
             }
         },userId);
+    }
 
+    private void listMyChores(){
+        serverCalls.listMyChores(new ChoreMyChoresCallback() {
+            @Override
+            public void gotMyChores(List<Chore> myChores) {
 
+                ChoreViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(ChoreViewModel.class);
+                MyChoresListFragment fragment = new MyChoresListFragment();
 
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,fragment);
+                fragmentTransaction.commit();
 
+                viewModel.getMyChoresList().observe(MainDrawerActivity.this,item ->{
+                    item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                    MyChoreCardAdapter adapter = new MyChoreCardAdapter(MainDrawerActivity.this, myChores, userId);
+                    item.setAdapter(adapter);
+                });
+            }
+        },userId);
     }
 }
