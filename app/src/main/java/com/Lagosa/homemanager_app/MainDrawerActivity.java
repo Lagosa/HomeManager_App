@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.Lagosa.homemanager_app.Database.ChoreMyChoresCallback;
 import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
+import com.Lagosa.homemanager_app.Database.ReportCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
 import com.Lagosa.homemanager_app.ui.Chores.Chore;
@@ -29,8 +30,12 @@ import com.Lagosa.homemanager_app.ui.Chores.ChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
+import com.Lagosa.homemanager_app.ui.Reports.Report;
+import com.Lagosa.homemanager_app.ui.Reports.ReportCardAdapter;
+import com.Lagosa.homemanager_app.ui.Reports.ReportListFragment;
 import com.Lagosa.homemanager_app.ui.ViewModels.ChoreViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
+import com.Lagosa.homemanager_app.ui.ViewModels.ReportViewModel;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
@@ -90,6 +95,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
             case R.id.myChores:
                 listMyChores();
                 break;
+            case R.id.getReport:
+                getReport();
+                break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -97,12 +105,11 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
     }
 
     private void displayJoinCodeFragment(){
-        JoincodeFragment joinCodeFragment = new JoincodeFragment();
         fragmentManager = getSupportFragmentManager();
 
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment,joinCodeFragment);
+        fragmentTransaction.replace(R.id.container_fragment,new JoincodeFragment());
         fragmentTransaction.commit();
 
         serverCalls.getJoinCode(new JoinCodeCallback() {
@@ -121,11 +128,10 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
             public void setNotDoneChoreList(List<Chore> chores) {
                 Log.w("CHORES","Method called!");
                 ChoreViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(ChoreViewModel.class);
-                AllChoresListFragment fragment = new AllChoresListFragment();
 
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,fragment);
+                fragmentTransaction.replace(R.id.container_fragment,new AllChoresListFragment());
                 fragmentTransaction.commit();
 
                 viewModel.getNotDoneListRecycleViewFamily().observe(MainDrawerActivity.this,item ->{
@@ -146,16 +152,35 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
             public void gotMyChores(List<Chore> myChores) {
 
                 ChoreViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(ChoreViewModel.class);
-                MyChoresListFragment fragment = new MyChoresListFragment();
 
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,fragment);
+                fragmentTransaction.replace(R.id.container_fragment,new MyChoresListFragment());
                 fragmentTransaction.commit();
 
                 viewModel.getMyChoresList().observe(MainDrawerActivity.this,item ->{
                     item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
                     MyChoreCardAdapter adapter = new MyChoreCardAdapter(MainDrawerActivity.this, myChores, userId);
+                    item.setAdapter(adapter);
+                });
+            }
+        },userId);
+    }
+
+    private void getReport(){
+        serverCalls.getReport(new ReportCallback() {
+            @Override
+            public void gotReport(List<Report> reportList) {
+                ReportViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(ReportViewModel.class);
+
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new ReportListFragment());
+                fragmentTransaction.commit();
+
+                viewModel.getReportRecyclerView().observe(MainDrawerActivity.this,item ->{
+                    item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                    ReportCardAdapter adapter = new ReportCardAdapter(MainDrawerActivity.this,MainDrawerActivity.this,reportList);
                     item.setAdapter(adapter);
                 });
             }

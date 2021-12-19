@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.Lagosa.homemanager_app.MainActivity;
 import com.Lagosa.homemanager_app.R;
 import com.Lagosa.homemanager_app.ui.Chores.Chore;
+import com.Lagosa.homemanager_app.ui.Reports.Report;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,7 +26,9 @@ import org.json.JSONObject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class ServerCalls extends AppCompatActivity {
@@ -315,5 +318,58 @@ public class ServerCalls extends AppCompatActivity {
             }
         });
         queue.add(request);
+    }
+
+    public void getReport(ReportCallback callback, UUID userId){
+        String url = SERVER_URL + "chore/getReport/" + userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Report> reportList = new ArrayList<>();
+                for(int i = 0; i < response.length(); i++){
+                    try {
+                        JSONObject userObject = response.getJSONObject(i);
+
+                        List<Map<String,Object>> choresDoneList = fetchReportChore(userObject.getJSONArray("choresDone"));
+
+                        List<Map<String,Object>> choresNotDoneList = fetchReportChore(userObject.getJSONArray("choresTookUpAndNotDone"));
+
+                        JSONObject user = userObject.getJSONObject("user");
+                        Report report = new Report(user.getString("nickName"),userObject.getInt("nrOfDoneChores"),userObject.getInt("nrOfNotFinishedChores"),
+                                choresDoneList,choresNotDoneList);
+                        reportList.add(report);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotReport(reportList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    private List<Map<String,Object>> fetchReportChore(JSONArray jsonChoreList){
+        List<Map<String,Object>> reportChores = new ArrayList<>();
+        for(int j = 0; j < jsonChoreList.length(); j++){
+            try {
+                JSONObject taskObject = jsonChoreList.getJSONObject(j);
+                taskObject = jsonChoreList.getJSONObject(j);
+
+                Map<String,Object> taskData = new HashMap<>();
+                taskData.put("title",taskObject.getString("title"));
+                taskData.put("deadline",Date.valueOf(taskObject.getString("dueDate")));
+
+                reportChores.add(taskData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return reportChores;
     }
 }
