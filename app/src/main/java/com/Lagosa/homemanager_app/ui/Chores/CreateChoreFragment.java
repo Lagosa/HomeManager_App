@@ -93,7 +93,6 @@ public class CreateChoreFragment extends Fragment implements View.OnClickListene
 
                 serverCalls.createChore(userId, Date.valueOf(deadline.getText().toString()), choreTypeSpinner.getSelectedItem().toString(), title.getText().toString(), description.getText().toString());
 
-
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_fragment,new AllChoresListFragment());

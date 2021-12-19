@@ -233,4 +233,41 @@ public class ServerCalls extends AppCompatActivity {
         });
         queue.add(request);
     }
+
+    public void deleteChore(int choreId, UUID userId){
+        String url = SERVER_URL + "chore/delete/" + choreId + "/" + userId;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.w("DeleteChore","Chore deleted!");
+                Toast.makeText(context,"Chore deleted!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Can't delete chore! You are not the owner!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
+    }
+
+    public void takeUpChore(int choreId, UUID userId){
+        String url = SERVER_URL + "chore/take/" + choreId + "/" + userId;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Chore took up!", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
+    }
 }

@@ -127,7 +127,7 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                     Log.w("CHORES","Got recycle view");
 
                     item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
-                    ChoreCardAdapter adapter = new ChoreCardAdapter(MainDrawerActivity.this,chores);
+                    ChoreCardAdapter adapter = new ChoreCardAdapter(MainDrawerActivity.this,chores,userId);
                     item.setAdapter(adapter);
                 });
             }
