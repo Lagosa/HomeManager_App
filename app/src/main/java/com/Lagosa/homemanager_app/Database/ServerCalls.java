@@ -402,6 +402,134 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(request);
     }
 
+    public void getAllDishes(DishCallback callback, UUID userId){
+        String url = SERVER_URL + "dish/getDishes/"+userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> dishList = new ArrayList<>();
+
+                for(int i = 0; i<response.length();i++){
+                    try {
+                        JSONObject dishObject = response.getJSONObject(i);
+
+                        Map<String,Object> dishMap = new HashMap<>();
+                        dishMap.put("id",dishObject.getString("id"));
+                        dishMap.put("name",dishObject.getString("name"));
+                        dishMap.put("submitterName",dishObject.getString("submitterName"));
+                        dishMap.put("type",dishObject.getString("typeName"));
+                        dishMap.put("recipe",dishObject.getString("recipe"));
+                        dishMap.put("visibility",dishObject.getString("visibility"));
+                        dishMap.put("nrTimesMade",dishObject.getString("nrTimesMade"));
+
+                        List<Map<String,Object>> ingredientsList = new ArrayList<>();
+                        JSONArray ingredientsListJson = dishObject.getJSONArray("ingredients");
+                        for(int j = 0; j<ingredientsListJson.length(); j++){
+                            JSONObject ingredientObject = ingredientsListJson.getJSONObject(j);
+                            Map<String,Object> ingredient = new HashMap<>();
+                            ingredient.put("name",ingredientObject.getString("name"));
+                            ingredient.put("quantity",ingredientObject.getString("quantity"));
+                            ingredient.put("measurementUnit",ingredientObject.getString("measurementUnit"));
+
+                            ingredientsList.add(ingredient);
+                        }
+
+                        dishMap.put("ingredients",ingredientsList);
+                        dishList.add(dishMap);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotAllDishes(dishList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getIngredients(IngredientCallback callback){
+        String url = SERVER_URL + "dish/getAllIngredients";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,String>> ingredientList = new ArrayList<>();
+                for(int i = 0; i< response.length();i++){
+                    try {
+                        JSONObject ingredientObject = response.getJSONObject(i);
+                        Map<String,String> ingredientMap = new HashMap<>();
+                        ingredientMap.put("name",ingredientObject.get("name").toString());
+                        ingredientMap.put("mu",ingredientObject.get("measurementUnit").toString());
+
+                        ingredientList.add(ingredientMap);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotIngredients(ingredientList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getDishTypes(DishCallback callback){
+        String url = SERVER_URL + "dish/getTypes";
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> dishTypes = new ArrayList<>();
+                for(int i = 0; i< response.length(); i++){
+                    try {
+                        String type= response.getString(i);
+                        Map<String,Object> typeMap = new HashMap<>();
+                        typeMap.put("type",type);
+                        dishTypes.add(typeMap);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotAllDishes(dishTypes);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void insertDish(UUID userId, String name, String type, String visibility, String recipe, List<Map<String, Object>> selectedIngredients) {
+        String url = SERVER_URL + "dish/insert/"+userId+"/"+name+"/"+type+"/"+visibility;
+        JSONArray ingredientListObject = new JSONArray(selectedIngredients);
+        Map<String,Object> mapToSend = new HashMap<>();
+        mapToSend.put("recipe",recipe);
+        mapToSend.put("ingredients",selectedIngredients);
+        Log.w("CreateDish",selectedIngredients.toString());
+        JSONObject objectToSend = new JSONObject(mapToSend);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, objectToSend,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(context,"Dish created!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
     private List<Map<String,Object>> fetchReportChore(JSONArray jsonChoreList){
         List<Map<String,Object>> reportChores = new ArrayList<>();
         for(int j = 0; j < jsonChoreList.length(); j++){

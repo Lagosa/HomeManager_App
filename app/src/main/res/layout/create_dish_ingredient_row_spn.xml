@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+            android:id="@+id/spnAddDishIngredient"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:autofillHints="Type"
+            android:dropDownWidth="match_parent"
+            android:minHeight="48dp"
+            android:popupBackground="@color/white"
+            android:contentDescription="Type of chore"
+            android:textColor="#262B54" />
+
+        <EditText
+            android:id="@+id/txtAddIngredientQuantity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:ems="10"
+            android:hint="Quantity"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:shadowColor="#FFFFFF"
+            android:textColor="#262B54"
+            android:textColorHighlight="@color/lightHighlight"
+            android:textColorLink="@color/lightHighlight" />
+
+        <TextView
+            android:id="@+id/txtAddIngredientMeasurementUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="measUnit"
+            android:textSize="16dp"
+            />
+
+    </LinearLayout>
+</LinearLayout>

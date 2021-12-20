@@ -13,6 +13,7 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/ic_menu_camera.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/memento_background.xml" value="0.2578125" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/outer_border.xml" value="0.2453125" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/outer_border_light.xml" value="0.25833333333333336" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/side_nav_bar.xml" value="0.2703125" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/drawable/view.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.341015625" />
@@ -27,9 +28,13 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/content_menu.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_chore.xml" value="0.19739583333333333" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_dish.xml" value="0.264" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_dish_ingredient_row_spn.xml" value="0.234375" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_dish_ingredient_row_txt.xml" value="0.234375" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_family.xml" value="0.2864583333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_memento.xml" value="0.24166666666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/date_picker.xml" value="0.36666666666666664" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/dish_card.xml" value="0.4" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/drawer_header.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/drawer_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/drawer_toolbar.xml" value="0.36666666666666664" />
@@ -46,6 +51,8 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/report_card_user.xml" value="0.264" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/spinner_item.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_chore_fragment.xml" value="0.22916666666666666" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_dishes.xml" value="0.2421875" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_dishes_fragment.xml" value="0.2390625" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_mementos_fragment.xml" value="0.24166666666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_mychores_fragment.xml" value="0.25104166666666666" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_report_fragment.xml" value="0.15416666666666667" />
@@ -53,6 +60,7 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/activity_main_drawer.xml" value="0.20520833333333333" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/drawer_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/menu.xml" value="0.2" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/search_dish.xml" value="0.2421875" />
       </map>
     </option>
   </component>

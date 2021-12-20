@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add a new dish"
+        android:textAlignment="center"
+        android:textColor="@color/darkHighlight"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+
+            <EditText
+                android:id="@+id/txtAddDishName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:hint="Dish name"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:shadowColor="#FFFFFF"
+                android:textColor="#262B54"
+                android:textColorHighlight="@color/lightHighlight"
+                android:textColorLink="@color/lightHighlight" />
+
+            <Spinner
+                android:id="@+id/spnAddDishType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:autofillHints="Type"
+                android:dropDownWidth="match_parent"
+                android:minHeight="48dp"
+                android:popupBackground="@color/white"
+                android:contentDescription="Type of chore"
+                android:textColor="#262B54" />
+
+            <Spinner
+                android:id="@+id/spnAddDishVisibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:autofillHints="Type"
+                android:dropDownWidth="match_parent"
+                android:minHeight="48dp"
+                android:popupBackground="@color/white"
+                android:contentDescription="Type of chore"
+                android:textColor="#262B54" />
+
+            <EditText
+                android:id="@+id/txtAddDishRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="20dp"
+                android:ems="10"
+                android:hint="Recipe"
+                android:gravity="top"
+                android:inputType="text|textMultiLine"
+                android:minHeight="48dp"
+                android:shadowColor="#FFFFFF"
+                android:textColor="#262B54"
+                android:textColorHighlight="@color/lightHighlight"
+                android:textColorLink="@color/lightHighlight" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ingredients (lose focus):"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <Button
+                    android:id="@+id/createDishRemoveIngredientBTN"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/veryLightHighlight"
+                    android:text="-"
+                    android:textSize="23dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkHighlight"
+                    android:layout_marginRight="10dp"/>
+
+                <Button
+                    android:id="@+id/createDishAddIngredientBTN"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/lightHighlight"
+                    android:text="+"
+                    android:textSize="23dp"
+                    android:textStyle="bold"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ingredientContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/createDishCreateBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="Create" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

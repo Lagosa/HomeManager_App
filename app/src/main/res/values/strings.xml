@@ -6,6 +6,11 @@
         <item>PARENT</item>
         <item>CHILD</item>
     </string-array>
+    <string-array name="dishVisibility">
+        <item>Visibility...</item>
+        <item>PRIVATE</item>
+        <item>PUBLIC</item>
+    </string-array>
     <string name="server_url">https://lagosa-home-manager.herokuapp.com/</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

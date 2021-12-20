@@ -3,8 +3,12 @@ package com.Lagosa.homemanager_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.Lagosa.homemanager_app.Database.ChoreMyChoresCallback;
 import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
+import com.Lagosa.homemanager_app.Database.DishCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
 import com.Lagosa.homemanager_app.Database.MementoCallback;
 import com.Lagosa.homemanager_app.Database.ReportCallback;
@@ -30,6 +35,8 @@ import com.Lagosa.homemanager_app.ui.Chores.Chore;
 import com.Lagosa.homemanager_app.ui.Chores.ChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
+import com.Lagosa.homemanager_app.ui.Dishes.DishListFragment;
+import com.Lagosa.homemanager_app.ui.Dishes.DishPreviewCardAdapter;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoCardAdapter;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoListFragment;
@@ -37,6 +44,7 @@ import com.Lagosa.homemanager_app.ui.Reports.Report;
 import com.Lagosa.homemanager_app.ui.Reports.ReportCardAdapter;
 import com.Lagosa.homemanager_app.ui.Reports.ReportListFragment;
 import com.Lagosa.homemanager_app.ui.ViewModels.ChoreViewModel;
+import com.Lagosa.homemanager_app.ui.ViewModels.DishesViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.MementoViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.ReportViewModel;
@@ -58,6 +66,8 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
     Intent intent;
     UUID familyId;
     UUID userId;
+
+    MenuItem searchFilter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +115,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.getMementos:
                 getMementos();
+                break;
+            case R.id.listAllDishes:
+                listAllDishes();
                 break;
         }
 
@@ -195,7 +208,7 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         },userId);
     }
 
-    public void getMementos(){
+    private void getMementos(){
         serverCalls.getMementos(new MementoCallback(){
 
             @Override
@@ -210,6 +223,56 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                     item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
                     MementoCardAdapter adapter = new MementoCardAdapter(MainDrawerActivity.this,mementoList);
                     item.setAdapter(adapter);
+                });
+            }
+        },userId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_dish,menu);
+
+        MenuItem searchFilter = menu.findItem(R.id.search_dish);
+        searchFilter.setVisible(false);
+
+        this.searchFilter= searchFilter;
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void listAllDishes(){
+        serverCalls.getAllDishes(new DishCallback() {
+            @Override
+            public void gotAllDishes(List<Map<String, Object>> dishesList) {
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new DishListFragment());
+                fragmentTransaction.commit();
+
+                DishesViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(DishesViewModel.class);
+                viewModel.getDishListRecyclerView().observe(MainDrawerActivity.this,item ->{
+                    item.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                    DishPreviewCardAdapter adapter = new DishPreviewCardAdapter(MainDrawerActivity.this,dishesList);
+                    item.setAdapter(adapter);
+
+                    SearchView searchView = (SearchView) searchFilter.getActionView();
+                    searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+                    searchFilter.setVisible(true);
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapter.getFilter().filter(newText);
+                            return false;
+                        }
+                    });
                 });
             }
         },userId);

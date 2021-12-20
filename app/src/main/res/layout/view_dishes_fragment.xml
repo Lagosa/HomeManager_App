@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/createDish"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="New dish"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/getRandomDish"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Random dish"
+            android:layout_margin="5dp"/>
+
+        <Button
+            android:id="@+id/getCommunityDishes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Community dishes"
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listAllDishesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>
