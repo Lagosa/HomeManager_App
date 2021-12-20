@@ -20,6 +20,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.Lagosa.homemanager_app.Database.DatabaseHelper;
 import com.Lagosa.homemanager_app.Database.DishCallback;
@@ -67,6 +69,10 @@ public class CreateDishFragment extends Fragment {
                 dummy.put("name","Select ingredient!");
                 dummy.put("mu","-");
                 ingredients.add(0,dummy);
+                Map<String,String> dummy2 = new HashMap<>();
+                dummy2.put("name","~Type a new ingredient~");
+                dummy2.put("mu","-");
+                ingredients.add(1,dummy2);
                 ingredientLists = ingredients;
                 ingredientNames = new ArrayList<>();
                 int i = 0;
@@ -137,6 +143,11 @@ public class CreateDishFragment extends Fragment {
                 data.moveToFirst();
 
                 serverCalls.insertDish(UUID.fromString(data.getString(0)),name.getText().toString(),type.getSelectedItem().toString(),visibility.getSelectedItem().toString(),recipe.getText().toString(),selectedIngredients);
+
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new DishListFragment());
+                fragmentTransaction.commit();
             }
         });
 

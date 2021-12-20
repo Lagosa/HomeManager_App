@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <Button
             android:id="@+id/createDish"
@@ -22,14 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Random dish"
-            android:layout_margin="5dp"/>
-
-        <Button
-            android:id="@+id/getCommunityDishes"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Community dishes"
             android:layout_margin="5dp"/>
 
     </LinearLayout>

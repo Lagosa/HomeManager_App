@@ -1,16 +1,21 @@
 package com.Lagosa.homemanager_app.ui.Dishes;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.R;
 
 import java.util.ArrayList;
@@ -43,9 +48,59 @@ public class DishPreviewCardAdapter extends RecyclerView.Adapter<DishPreviewCard
         holder.type.setText((String)dishList.get(position).get("type"));
         holder.visibility.setText((String)dishList.get(position).get("visibility"));
         holder.nrTimesMade.setText((String)dishList.get(position).get("nrTimesMade"));
+        holder.dishPosition.setText(position+"");
 
         List<Map<String,Object>> ingredientList = (List) dishList.get(position).get("ingredients");
         holder.nrIngredients.setText(ingredientList.size()+"");
+
+        holder.markDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ServerCalls serverCalls = new ServerCalls(inflater.getContext());
+                serverCalls.markDone(Integer.parseInt((String)dishList.get(Integer.parseInt(holder.dishPosition.getText().toString())).get("id")));
+            }
+        });
+
+        holder.modifyVisibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String visibility = "";
+                if(holder.visibility.getText().equals("PRIVATE")){
+                    visibility = "PUBLIC";
+                }else{
+                    visibility = "PRIVATE";
+                }
+
+                ServerCalls serverCalls = new ServerCalls(inflater.getContext());
+                serverCalls.modifyVisibility(Integer.parseInt((String)dishList.get(Integer.parseInt(holder.dishPosition.getText().toString())).get("id")),visibility);
+            }
+        });
+
+        holder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog;
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(inflater.getContext());
+                View detailPopupView = inflater.inflate(R.layout.dish_details,null);
+
+                TextView detailName = (TextView) detailPopupView.findViewById(R.id.dishDetailName);
+                TextView detailType = (TextView) detailPopupView.findViewById(R.id.dishDetailType);
+                TextView detailRecipe = (TextView) detailPopupView.findViewById(R.id.dishDetailRecipe);
+                RecyclerView ingredientContainer  = (RecyclerView) detailPopupView.findViewById(R.id.dishDetailIngredientContainer);
+
+                dialogBuilder.setView(detailPopupView);
+                dialog = dialogBuilder.create();
+                dialog.show();
+
+                detailName.setText(holder.name.getText().toString());
+                detailType.setText(holder.type.getText().toString());
+                detailRecipe.setText((String)dishList.get(Integer.parseInt(holder.dishPosition.getText().toString())).get("recipe"));
+
+                ingredientContainer.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
+                DishDetailIngredientsCardAdapter ingredientAdapter = new DishDetailIngredientsCardAdapter(inflater.getContext(),(ArrayList) dishList.get(Integer.parseInt(holder.dishPosition.getText().toString())).get("ingredients"));
+                ingredientContainer.setAdapter(ingredientAdapter);
+            }
+        });
 
     }
 
@@ -88,7 +143,9 @@ public class DishPreviewCardAdapter extends RecyclerView.Adapter<DishPreviewCard
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name, type,visibility,nrTimesMade,nrIngredients;
+        TextView name, type,visibility,nrTimesMade,nrIngredients,dishPosition;
+        ConstraintLayout markDone, modifyVisibility;
+        LinearLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,6 +154,10 @@ public class DishPreviewCardAdapter extends RecyclerView.Adapter<DishPreviewCard
             visibility = itemView.findViewById(R.id.dishPreviewVisibility);
             nrTimesMade = itemView.findViewById(R.id.dishPreviewNrTimesMade);
             nrIngredients = itemView.findViewById(R.id.dishPreviewNrIngredients);
+            markDone = itemView.findViewById(R.id.dishPreviewMarkDone);
+            modifyVisibility = itemView.findViewById(R.id.dishPreviewChangeVisibility);
+            dishPosition = itemView.findViewById(R.id.dishCardPosition);
+            container = itemView.findViewById(R.id.dishPreviewContainer);
         }
     }
 

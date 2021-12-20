@@ -530,6 +530,65 @@ public class ServerCalls extends AppCompatActivity {
         queue.add(request);
     }
 
+    public void markDone(int dishId){
+        String url = SERVER_URL + "dish/dishMade/" + dishId;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Increased number of times made!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void modifyVisibility(int dishId, String visibility) {
+        String url = SERVER_URL + "dish/changeVisibility/" + dishId + "/" + visibility;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Visibility modified to: " + visibility,Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getRandomDish(DishCallback callback,UUID userId, String type){
+        String url = SERVER_URL + "dish/getRandom/"+userId+"/"+type;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                List<Map<String,Object>> dishList = new ArrayList<>();
+                Map<String,Object> dish = new HashMap<>();
+                try {
+                    dish.put("name",response.getString("name"));
+                    dish.put("type",response.getString("typeName"));
+                    dish.put("recipe",response.getString("recipe"));
+                    dish.put("ingredients",response.get("ingredients"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dishList.add(dish);
+                callback.gotAllDishes(dishList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
     private List<Map<String,Object>> fetchReportChore(JSONArray jsonChoreList){
         List<Map<String,Object>> reportChores = new ArrayList<>();
         for(int j = 0; j < jsonChoreList.length(); j++){
@@ -548,4 +607,6 @@ public class ServerCalls extends AppCompatActivity {
         }
         return reportChores;
     }
+
+
 }

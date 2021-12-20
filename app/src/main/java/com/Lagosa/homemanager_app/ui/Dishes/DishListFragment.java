@@ -29,6 +29,9 @@ public class DishListFragment extends Fragment implements View.OnClickListener {
         Button newDishBtn = myView.findViewById(R.id.createDish);
         newDishBtn.setOnClickListener(this);
 
+        Button randomDishBtn = myView.findViewById(R.id.getRandomDish);
+        randomDishBtn.setOnClickListener(this);
+
         return myView;
     }
 
@@ -41,6 +44,9 @@ public class DishListFragment extends Fragment implements View.OnClickListener {
         switch(v.getId()){
             case R.id.createDish:
                 fragmentTransaction.replace(R.id.container_fragment,new CreateDishFragment());
+                break;
+            case R.id.getRandomDish:
+                fragmentTransaction.replace(R.id.container_fragment,new RandomDishFragment());
                 break;
         }
 
