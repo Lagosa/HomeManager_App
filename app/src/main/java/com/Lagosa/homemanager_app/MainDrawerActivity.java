@@ -28,6 +28,7 @@ import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
 import com.Lagosa.homemanager_app.Database.DishCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
 import com.Lagosa.homemanager_app.Database.MementoCallback;
+import com.Lagosa.homemanager_app.Database.PlannedDishList;
 import com.Lagosa.homemanager_app.Database.ReportCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
@@ -37,6 +38,8 @@ import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.DishListFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.DishPreviewCardAdapter;
+import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishCardAdapter;
+import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishesFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoCardAdapter;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoListFragment;
@@ -44,12 +47,16 @@ import com.Lagosa.homemanager_app.ui.Reports.Report;
 import com.Lagosa.homemanager_app.ui.Reports.ReportCardAdapter;
 import com.Lagosa.homemanager_app.ui.Reports.ReportListFragment;
 import com.Lagosa.homemanager_app.ui.ViewModels.ChoreViewModel;
+import com.Lagosa.homemanager_app.ui.ViewModels.DishPlansViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.DishesViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.MementoViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.ReportViewModel;
 import com.google.android.material.navigation.NavigationView;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -118,6 +125,9 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.listAllDishes:
                 listAllDishes();
+                break;
+            case R.id.listPlannedDishes:
+                listPlannedDishes();
                 break;
         }
 
@@ -276,5 +286,68 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 });
             }
         },userId);
+    }
+
+    private void listPlannedDishes(){
+
+        DishPlansViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(DishPlansViewModel.class);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment,new PlannedDishesFragment());
+        fragmentTransaction.commit();
+
+
+        viewModel.getDateInterval().observe(MainDrawerActivity.this,item ->{
+            Log.w("DishPlan","Got end interval, getting data from server...");
+            Date startDate = item.get("start") ,endDate = item.get("end");
+
+            serverCalls.getPlannedDishes(new PlannedDishList() {
+                @Override
+                public void gotPlannedDishes(List<Map<String, Object>> plannedDishesList) {
+                    Log.w("DishPlan","Got data from server");
+                    viewModel.getPlanContainer().observe(MainDrawerActivity.this, item2 ->{
+                        Log.w("DishPlan","Creating recyclerview");
+                        List<Map<String,Object>> plannedDishListPrepared = new ArrayList<>();
+                        Map<String,Integer> positionTable = new HashMap<>();
+
+                        for(Map<String,Object> dishInfo : plannedDishesList){
+                            if(positionTable.get(dishInfo.get("day").toString()) == null){
+                                positionTable.put(dishInfo.get("day").toString(),plannedDishListPrepared.size());
+
+                                Map<String,Object> dateInfo = new HashMap<>();
+                                dateInfo.put("date",dishInfo.get("day").toString());
+
+                                List<Map<String,String>> dishList = new ArrayList<>();
+                                Map<String,String> dishData = new HashMap<>();
+                                dishData.put("dishName",dishInfo.get("dishName").toString());
+                                dishData.put("typeName",dishInfo.get("typeName").toString());
+
+                                dishList.add(dishData);
+
+                                dateInfo.put("dishList",dishList);
+
+                                plannedDishListPrepared.add(dateInfo);
+                            }else{
+                                List<Map<String,String>> dishListFromDate =(ArrayList) plannedDishListPrepared.get(positionTable.get(dishInfo.get("day").toString())).get("dishList");
+
+                                Map<String,String> dishData = new HashMap<>();
+                                dishData.put("dishName",dishInfo.get("dishName").toString());
+                                dishData.put("typeName",dishInfo.get("typeName").toString());
+
+                                dishListFromDate.add(dishData);
+                            }
+                        }
+
+                        item2.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                        Log.w("DishPlan","planned dishes: "+ plannedDishListPrepared.toString());
+                        PlannedDishCardAdapter cardAdapter = new PlannedDishCardAdapter(MainDrawerActivity.this,plannedDishListPrepared);
+                        Log.w("DishPlan","card adapter: " + cardAdapter.toString());
+                        item2.setAdapter(cardAdapter);
+                        Log.w("DishPlan","Process finished with status: OK");
+                    });
+                }
+            },userId,startDate,endDate);
+        });
     }
 }

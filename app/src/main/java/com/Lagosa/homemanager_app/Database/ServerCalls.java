@@ -583,7 +583,54 @@ public class ServerCalls extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
 
+    public void getPlannedDishes(PlannedDishList callback,UUID userId, Date startDate, Date endDate){
+        String url = SERVER_URL + "dish/getPlan/"+userId+"/"+startDate+"/"+endDate;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> listPlannedDishes = new ArrayList<>();
+                for(int i=0; i<response.length(); i++){
+                    try {
+                        JSONObject plannedDishObject = response.getJSONObject(i);
+                        Map<String,Object> plannedDish = new HashMap<>();
+                        plannedDish.put("dishName",plannedDishObject.getString("dishName"));
+                        plannedDish.put("typeName",plannedDishObject.getString("typeName"));
+                        plannedDish.put("day",plannedDishObject.getString("day"));
+                        listPlannedDishes.add(plannedDish);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotPlannedDishes(listPlannedDishes);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void createPlan(UUID userId, String dishId, Date day,int i, int total){
+        String url = SERVER_URL + "dish/plan/"+userId+"/"+dishId+"/"+day;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Plan saved: " + i + "/" + total,Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong at plan: " + i + "/" + total,Toast.LENGTH_LONG).show();
             }
         });
         queue.add(request);
