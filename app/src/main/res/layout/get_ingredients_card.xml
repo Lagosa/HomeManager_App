@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp">
+
+    <TextView
+        android:id="@+id/getIngredientsDishName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dish name"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/getIngredientsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
+    <TableRow
+        android:id="@+id/hrHeader"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkHighlight"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>

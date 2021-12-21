@@ -22,13 +22,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.Lagosa.homemanager_app.Database.ChoreMyChoresCallback;
 import com.Lagosa.homemanager_app.Database.ChoreNotDoneListCallback;
 import com.Lagosa.homemanager_app.Database.DishCallback;
+import com.Lagosa.homemanager_app.Database.GetIngredientForDayCallback;
 import com.Lagosa.homemanager_app.Database.JoinCodeCallback;
 import com.Lagosa.homemanager_app.Database.MementoCallback;
 import com.Lagosa.homemanager_app.Database.PlannedDishList;
+import com.Lagosa.homemanager_app.Database.PollListCallback;
 import com.Lagosa.homemanager_app.Database.ReportCallback;
 import com.Lagosa.homemanager_app.Database.ServerCalls;
 import com.Lagosa.homemanager_app.ui.Chores.AllChoresListFragment;
@@ -38,11 +41,15 @@ import com.Lagosa.homemanager_app.ui.Chores.MyChoreCardAdapter;
 import com.Lagosa.homemanager_app.ui.Chores.MyChoresListFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.DishListFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.DishPreviewCardAdapter;
+import com.Lagosa.homemanager_app.ui.Dishes.GetIngredientsCardAdapter;
+import com.Lagosa.homemanager_app.ui.Dishes.GetIngredientsFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishCardAdapter;
 import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishesFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoCardAdapter;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoListFragment;
+import com.Lagosa.homemanager_app.ui.Polls.PollCardAdapter;
+import com.Lagosa.homemanager_app.ui.Polls.PollListFragment;
 import com.Lagosa.homemanager_app.ui.Reports.Report;
 import com.Lagosa.homemanager_app.ui.Reports.ReportCardAdapter;
 import com.Lagosa.homemanager_app.ui.Reports.ReportListFragment;
@@ -51,6 +58,7 @@ import com.Lagosa.homemanager_app.ui.ViewModels.DishPlansViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.DishesViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.JoinCodeViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.MementoViewModel;
+import com.Lagosa.homemanager_app.ui.ViewModels.PollViewModel;
 import com.Lagosa.homemanager_app.ui.ViewModels.ReportViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -75,6 +83,8 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
     UUID userId;
 
     MenuItem searchFilter;
+    List<Map<String,Object>> openPolls = new ArrayList<>();
+    List<Map<String,Object>> closedPolls = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,6 +138,12 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 break;
             case R.id.listPlannedDishes:
                 listPlannedDishes();
+                break;
+            case R.id.listPolls:
+                listPolls();
+                break;
+            case R.id.ingredientsForToday:
+                getIngredients();
                 break;
         }
 
@@ -348,6 +364,101 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                     });
                 }
             },userId,startDate,endDate);
+        });
+    }
+
+
+
+    private void listPolls(){
+        Log.w("pollList","Listing polls...");
+        serverCalls.getOpenPolls(new PollListCallback() {
+            @Override
+            public void gotOpenPolls(List<Map<String, Object>> openPollsList) {
+                openPolls = openPollsList;
+                Log.w("pollList","Got open polls...");
+                beginPollListTransaction();
+            }
+
+            @Override
+            public void gotClosedPolls(List<Map<String, Object>> closedPollsList) {
+
+            }
+        },userId);
+
+        serverCalls.getClosedPolls(new PollListCallback() {
+            @Override
+            public void gotOpenPolls(List<Map<String, Object>> openPollsList) {
+
+            }
+
+            @Override
+            public void gotClosedPolls(List<Map<String, Object>> closedPollsList) {
+                closedPolls = closedPollsList;
+                Log.w("pollList","Got closed polls..." + closedPollsList.toString());
+                beginPollListTransaction();
+            }
+        },userId);
+    }
+
+
+    int i = 0;
+
+    private void beginPollListTransaction(){
+        i++;
+        if(i >= 2){
+            Log.w("pollList", "Beginning transaction!");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("userId",userId.toString());
+
+            PollListFragment pollListFragment = new PollListFragment();
+            pollListFragment.setArguments(bundle);
+
+            fragmentManager = getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment, pollListFragment);
+            fragmentTransaction.commit();
+
+            PollViewModel viewModel = new ViewModelProvider(MainDrawerActivity.this).get(PollViewModel.class);
+            viewModel.getPollContainer().observe(MainDrawerActivity.this, item->{
+                RecyclerView openPollContainer = item.get("open");
+                RecyclerView closedPollContainer = item.get("closed");
+
+                openPollContainer.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                closedPollContainer.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+
+                Log.w("pollList","Open polls: "+openPolls.toString());
+                Log.w("pollList","Closed polls: "+closedPolls.toString());
+
+                PollCardAdapter openPollsCardAdapter = new PollCardAdapter(MainDrawerActivity.this,openPolls,false);
+                PollCardAdapter closedPollsCardAdapter = new PollCardAdapter(MainDrawerActivity.this,closedPolls,true);
+
+                openPollContainer.setAdapter(openPollsCardAdapter);
+                closedPollContainer.setAdapter(closedPollsCardAdapter);
+            });
+        }
+    }
+
+    private void getIngredients(){
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment, new GetIngredientsFragment());
+        fragmentTransaction.commit();
+
+        DishesViewModel viewModel = new ViewModelProvider(this).get(DishesViewModel.class);
+        viewModel.getDayToGetIngredientsFrom().observe(this,item->{
+
+            serverCalls.getIngredientForDay(new GetIngredientForDayCallback() {
+                @Override
+                public void gotIngredients(List<Map<String, Object>> ingredientList) {
+
+                    viewModel.getDishListRecyclerView().observe(MainDrawerActivity.this,item2->{
+                        item2.setLayoutManager(new LinearLayoutManager(MainDrawerActivity.this));
+                        GetIngredientsCardAdapter adapter = new GetIngredientsCardAdapter(MainDrawerActivity.this,ingredientList);
+                        item2.setAdapter(adapter);
+                    });
+                }
+            },userId,item);
         });
     }
 }

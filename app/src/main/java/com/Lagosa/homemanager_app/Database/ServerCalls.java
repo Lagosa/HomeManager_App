@@ -656,4 +656,162 @@ public class ServerCalls extends AppCompatActivity {
     }
 
 
+    public void getOpenPolls(PollListCallback pollListCallback, UUID userId) {
+        String url = SERVER_URL +  "poll/getOpenPolls/"+userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> openPolls = new ArrayList<>();
+                for(int i = 0; i < response.length(); i++){
+
+                    try {
+                        JSONObject pollObject = response.getJSONObject(i);
+                        Map<String,Object> poll = new HashMap<>();
+                        poll.put("dishes",pollObject.get("dishes"));
+                        poll.put("status",pollObject.get("status"));
+                        poll.put("id",pollObject.get("id"));
+                        poll.put("message",pollObject.getString("message"));
+                        openPolls.add(poll);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                pollListCallback.gotOpenPolls(openPolls);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+    public void getClosedPolls(PollListCallback pollListCallback, UUID userId){
+        String url = SERVER_URL + "poll/getClosedPolls/"+userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> closedPolls = new ArrayList<>();
+                for(int i = 0; i < response.length(); i++){
+
+                    try {
+                        JSONObject pollObject = response.getJSONObject(i);
+                        Map<String,Object> poll = new HashMap<>();
+                        poll.put("dishes",pollObject.get("dishes"));
+                        poll.put("status",pollObject.get("status"));
+                        poll.put("id",pollObject.get("id"));
+                        poll.put("message",pollObject.getString("message"));
+                        closedPolls.add(poll);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                pollListCallback.gotClosedPolls(closedPolls);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+    public void changePollStatus(UUID userId, String id, String status) {
+        String url = SERVER_URL + "poll/updateStatus/"+userId+"/"+id+"/"+status;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Poll status updated to " + status,Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        queue.add(request);
+    }
+
+    public void addDishToPoll(UUID userId, String id, String dishId) {
+        String url = SERVER_URL + "poll/addDish/"+userId+"/"+id+"/"+dishId;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Dish added to the poll!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void pollVote(UUID userId, String dishPollId, String vote) {
+        String url = SERVER_URL + "poll/vote/"+userId+"/"+dishPollId+"/"+vote;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Vote saved!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"You already voted on this dish!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void createPoll(UUID userId, String message) {
+        String url = SERVER_URL + "poll/create/"+userId+"/"+message;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Poll created!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getIngredientForDay(GetIngredientForDayCallback callback, UUID userId, String date) {
+        String url = SERVER_URL + "dish/getIngredientsDay/"+userId+"/"+date;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> ingredients = new ArrayList<>();
+                for(int i = 0; i<response.length();i++){
+                    try {
+                        JSONObject ingredientObject = response.getJSONObject(i);
+                        Map<String,Object> ingredient = new HashMap<>();
+                        ingredient.put("dishName",ingredientObject.getString("dishName"));
+                        ingredient.put("ingredients",ingredientObject.get("ingredients"));
+                        ingredients.add(ingredient);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotIngredients(ingredients);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
 }

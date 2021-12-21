@@ -35,6 +35,7 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_memento.xml" value="0.24166666666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_plan.xml" value="0.264" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_plan_row.xml" value="0.2" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/create_poll.xml" value="0.1984375" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/date_picker.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/dish_card.xml" value="0.4" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/dish_details.xml" value="0.264" />
@@ -44,6 +45,8 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/fragment_gallery.xml" value="0.36666666666666664" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/fragment_slideshow.xml" value="0.36666666666666664" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/get_ingredients_card.xml" value="0.2796875" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/get_ingredients_ingredients_card.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/join_family.xml" value="0.264" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/joincode_fragment.xml" value="0.2635416666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/loading_screen.xml" value="0.2635416666666667" />
@@ -53,6 +56,10 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/planed_dishes_card.xml" value="0.26197916666666665" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/planned_dish_card.xml" value="0.26197916666666665" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/planned_dishes_card.xml" value="0.26197916666666665" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/poll_add_dish.xml" value="0.1984375" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/poll_card.xml" value="0.4" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/poll_dish_card.xml" value="0.264" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/poll_dish_card_user.xml" value="0.1984375" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/random_dish.xml" value="0.27447916666666666" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/report_card_chore.xml" value="0.28765792031098153" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/report_card_user.xml" value="0.264" />
@@ -60,9 +67,11 @@
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_chore_fragment.xml" value="0.22916666666666666" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_dishes.xml" value="0.2421875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_dishes_fragment.xml" value="0.2390625" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_get_ingredients_fragment.xml" value="0.2796875" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_mementos_fragment.xml" value="0.24166666666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_mychores_fragment.xml" value="0.25104166666666666" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_planned_dishes_fragment.xml" value="0.26197916666666665" />
+        <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_polls_fragment.xml" value="0.1984375" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/view_report_fragment.xml" value="0.15416666666666667" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/layout/welcome_page.xml" value="0.264" />
         <entry key="..\:/UTCN/AN2/Sem1/OOP/Project/HomeManager_App/app/src/main/res/menu/activity_main_drawer.xml" value="0.20520833333333333" />

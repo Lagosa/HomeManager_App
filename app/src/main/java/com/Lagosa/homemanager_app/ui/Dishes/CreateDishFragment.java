@@ -51,7 +51,7 @@ public class CreateDishFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.create_dish,container,false);
 
-        EditText name = myView.findViewById(R.id.txtAddDishName);
+        EditText name = myView.findViewById(R.id.pollCreateMessage);
         EditText recipe = myView.findViewById(R.id.txtAddDishRecipe);
         Spinner type = myView.findViewById(R.id.spnAddDishType);
         Spinner visibility = myView.findViewById(R.id.spnAddDishVisibility);

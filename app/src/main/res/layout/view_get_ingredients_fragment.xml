@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="70dp">
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/txtGetIngredientDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Day to get ingredients for"
+                android:minHeight="48dp"
+                android:textColor="@color/darkHighlight"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txtGetIngredientDateWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+
+        </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Ingredients needed"
+        android:textColor="@color/darkHighlight"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/getIngredientsDishList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"/>
+
+</LinearLayout>

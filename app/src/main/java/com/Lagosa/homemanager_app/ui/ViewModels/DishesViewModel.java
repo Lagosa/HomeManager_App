@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DishesViewModel extends ViewModel {
     MutableLiveData<RecyclerView> dishListRecyclerView = new MutableLiveData<>();
+    MutableLiveData<String> dayToGetIngredientsFrom = new MutableLiveData<>();
 
     public LiveData<RecyclerView> getDishListRecyclerView() {
         return dishListRecyclerView;
@@ -14,5 +15,13 @@ public class DishesViewModel extends ViewModel {
 
     public void setDishListRecyclerView(RecyclerView dishListRecyclerView) {
         this.dishListRecyclerView.setValue(dishListRecyclerView);
+    }
+
+    public LiveData<String> getDayToGetIngredientsFrom() {
+        return dayToGetIngredientsFrom;
+    }
+
+    public void setDataFromFragment(String data) {
+        this.dayToGetIngredientsFrom.setValue(data);
     }
 }

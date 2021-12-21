@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp">
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create a new poll"
+        android:textAlignment="center"
+        android:textColor="@color/darkHighlight"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/pollCreateMessage"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="top"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Message..."
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:shadowColor="#FFFFFF"
+        android:textColor="#262B54"
+        android:textColorHighlight="@color/lightHighlight"
+        android:textColorLink="@color/lightHighlight" />
+
+    <Button
+        android:id="@+id/pollCreateBtn"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Create" />
+</LinearLayout>

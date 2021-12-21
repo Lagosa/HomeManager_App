@@ -18,6 +18,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.Lagosa.homemanager_app.Database.DatabaseHelper;
 import com.Lagosa.homemanager_app.Database.DishCallback;
@@ -89,6 +91,11 @@ public class CreatePlanFragment extends Fragment {
                     serverCalls.createPlan(userId,plan.get("dishId"), Date.valueOf(plan.get("day")),i,selectedDishesList.size());
                     i++;
                 }
+
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new PlannedDishesFragment());
+                fragmentTransaction.commit();
             }
         });
 
