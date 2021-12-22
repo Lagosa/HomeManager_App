@@ -49,10 +49,10 @@ public class CreateChoreFragment extends Fragment implements View.OnClickListene
 
         serverCalls = new ServerCalls(getContext());
 
-        title = myView.findViewById(R.id.txtAddChoreTitle);
+        title = myView.findViewById(R.id.notificationSendMessage);
         description = myView.findViewById(R.id.txtAddChoreDescription);
 
-        choreTypeSpinner = myView.findViewById(R.id.spnAddChoreType);
+        choreTypeSpinner = myView.findViewById(R.id.notificationSendReceiver);
         setUpSpinner(choreTypeSpinner);
 
         deadlineWrapper = myView.findViewById(R.id.addChoreDeadlineWrapper);

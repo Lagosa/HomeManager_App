@@ -814,4 +814,140 @@ public class ServerCalls extends AppCompatActivity {
         });
         queue.add(request);
     }
+
+    public void getNotifications(MainActivityCallback callback, UUID userId) {
+        String url = SERVER_URL + "family/getNotifications/"+userId;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.w("notifications","length: "+response.length());
+                List<Map<String,String>> notificationsList = new ArrayList<>();
+                for(int i = 0; i<response.length();i++){
+                    try {
+                        JSONObject notificationObject = response.getJSONObject(i);
+                        Map<String,String> notificationMap = new HashMap<>();
+                        notificationMap.put("sender",notificationObject.getString("senderName"));
+                        notificationMap.put("receiver",notificationObject.getString("receiverName"));
+                        notificationMap.put("title",notificationObject.getString("title"));
+                        notificationMap.put("message",notificationObject.getString("message"));
+                        notificationMap.put("date",notificationObject.getString("dateSent"));
+                        Log.w("notifications","Map: "+notificationMap.toString());
+                        notificationsList.add(notificationMap);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotNotificationsList(notificationsList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getFamilyMembers(GetFamilyMembersCallback callback, UUID userId) {
+        String url = SERVER_URL + "family/getFamilyMembers/"+userId;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<Map<String,Object>> memberList = new ArrayList<>();
+                for(int i = 0; i< response.length();i++){
+                    try {
+                        JSONObject familyObject = response.getJSONObject(i);
+                        Map<String,Object> member = new HashMap<>();
+                        member.put("nickname",familyObject.getString("nickName"));
+                        member.put("id",UUID.fromString(familyObject.getString("id")));
+                        memberList.add(member);
+                        } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callback.gotFamilyMembers(memberList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void sendNotification(UUID userId, UUID familyMemberId, String title, String message) {
+        String url = SERVER_URL + "family/sendNotification/"+userId+"/"+familyMemberId+"/"+title+"/"+message;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Notification sent!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getWhoIsHome(MainActivityCallback callback, UUID userId) {
+        String url = SERVER_URL + "family/getWhoIsHome/"+userId;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<String> whoIsHomeList = new ArrayList<>();
+                for(int i = 0 ;i < response.length();i++){
+                    try {
+                        whoIsHomeList.add(response.getString(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                callback.gotWhoIsHomeList(whoIsHomeList);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    public void setArrivedHome(UUID userId) {
+        String url = SERVER_URL + "family/setArrived/"+userId;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Set arrived home!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void setLeftHome(UUID userId) {
+        String url = SERVER_URL + "family/setLeft/"+userId;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context,"Set left home!",Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context,"Something went wrong!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(request);
+    }
 }

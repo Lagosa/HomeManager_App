@@ -46,6 +46,7 @@ import com.Lagosa.homemanager_app.ui.Dishes.GetIngredientsFragment;
 import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishCardAdapter;
 import com.Lagosa.homemanager_app.ui.Dishes.PlannedDishesFragment;
 import com.Lagosa.homemanager_app.ui.JoincodeFragment;
+import com.Lagosa.homemanager_app.ui.MainFragment;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoCardAdapter;
 import com.Lagosa.homemanager_app.ui.Mementos.MementoListFragment;
 import com.Lagosa.homemanager_app.ui.Polls.PollCardAdapter;
@@ -93,6 +94,8 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        serverCalls = new ServerCalls(this);
+
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
@@ -102,6 +105,14 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         header = navigationView.getHeaderView(0);
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                populateMainActivityWithData();
+            }
+        });
+
         TextView txt_nickname = header.findViewById(R.id.txtDrawerNickname);
         TextView txt_role = header.findViewById(R.id.txtDrawerRole);
 
@@ -112,7 +123,7 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
         txt_nickname.setText(intent.getStringExtra("nickName"));
         txt_role.setText(intent.getStringExtra("role"));
 
-        serverCalls = new ServerCalls(this);
+        populateMainActivityWithData();
     }
 
     @Override
@@ -460,5 +471,17 @@ public class MainDrawerActivity extends AppCompatActivity implements NavigationV
                 }
             },userId,item);
         });
+    }
+
+    private void populateMainActivityWithData(){
+        Bundle bundle = new Bundle();
+        bundle.putString("userId",userId.toString());
+        MainFragment mainFragment = new MainFragment();
+        mainFragment.setArguments(bundle);
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment,mainFragment);
+        fragmentTransaction.commit();
     }
 }

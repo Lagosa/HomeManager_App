@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="70dp"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send a notification"
+        android:textAlignment="center"
+        android:textColor="@color/darkHighlight"
+        android:textSize="24sp"
+        android:layout_marginBottom="30dp"/>
+
+    <Spinner
+        android:id="@+id/notificationSendReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:autofillHints="Type"
+        android:contentDescription="Type of chore"
+        android:dropDownWidth="match_parent"
+        android:minHeight="48dp"
+        android:popupBackground="@color/white"
+        android:textColor="#262B54" />
+
+    <EditText
+        android:id="@+id/notificationSendTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:shadowColor="#FFFFFF"
+        android:textColor="#262B54"
+        android:textColorHighlight="@color/lightHighlight"
+        android:textColorLink="@color/lightHighlight" />
+
+
+    <EditText
+        android:id="@+id/notificationSendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:ems="10"
+        android:hint="Message"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:shadowColor="#FFFFFF"
+        android:textColor="#262B54"
+        android:textColorHighlight="@color/lightHighlight"
+        android:textColorLink="@color/lightHighlight" />
+
+    <Button
+        android:id="@+id/notificationSendSendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Send" />
+
+</LinearLayout>

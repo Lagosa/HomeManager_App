@@ -23,8 +23,7 @@
         android:fitsSystemWindows="true"
         menu:menu="@menu/drawer_menu"
         menu:headerLayout="@layout/drawer_header"
-        />
+        >
 
-
-
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>

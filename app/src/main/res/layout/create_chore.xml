@@ -35,7 +35,7 @@
                 android:orientation="vertical" >
 
                 <EditText
-                    android:id="@+id/txtAddChoreTitle"
+                    android:id="@+id/notificationSendMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="40dp"
@@ -49,7 +49,7 @@
                     android:textColorLink="@color/lightHighlight" />
 
                 <Spinner
-                    android:id="@+id/spnAddChoreType"
+                    android:id="@+id/notificationSendReceiver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="50dp"
